@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -99,6 +101,25 @@ public class MoviesFragment extends Fragment implements MoviesContract.View, Mov
 
         mProgressBar = (ProgressBar) view.findViewById(R.id.pb_loading);
         mToolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+
+        SwipeRefreshLayout swipeRefreshLayout =
+                (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
+        swipeRefreshLayout.setColorSchemeColors(
+                ContextCompat.getColor(getActivity(), R.color.colorPrimary),
+                ContextCompat.getColor(getActivity(), R.color.colorAccent),
+                ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark));
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (Utils.isNetworkAvailable(getActivity())) {
+                    mActionsListener.loadMovies(true, DEFAULT_PAGE_NUM);
+                } else {
+                    Toast.makeText(getActivity(), getString(R.string.check_conn), Toast.LENGTH_SHORT).show();
+                    showEmptyView();
+                }
+            }
+        });
+
         setOnLoadMoreListner();
 
     }
@@ -125,6 +146,17 @@ public class MoviesFragment extends Fragment implements MoviesContract.View, Mov
         if (getView() == null) {
             return;
         }
+
+        final SwipeRefreshLayout srl =
+                (SwipeRefreshLayout) getView().findViewById(R.id.refresh_layout);
+
+        srl.post(new Runnable() {
+            @Override
+            public void run() {
+                srl.setRefreshing(active);
+            }
+        });
+
         if (active) {
             mProgressBar.setVisibility(View.VISIBLE);
         } else {

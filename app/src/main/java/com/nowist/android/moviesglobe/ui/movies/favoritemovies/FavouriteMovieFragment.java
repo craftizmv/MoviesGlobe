@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -86,13 +88,46 @@ public class FavouriteMovieFragment extends Fragment implements FavouriteMoviesC
 
         mToolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         mToolbar.setTitle(getString(R.string.favourite_movies));
+
+        SwipeRefreshLayout swipeRefreshLayout =
+                (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
+        swipeRefreshLayout.setColorSchemeColors(
+                ContextCompat.getColor(getActivity(), R.color.colorPrimary),
+                ContextCompat.getColor(getActivity(), R.color.colorAccent),
+                ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark));
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mActionsListener.loadAllFavoriteMovies();
+            }
+        });
     }
 
+    /**
+     * May be called from non ui thread
+     *
+     * @param active
+     */
     @Override
-    public void setProgressIndicator(boolean active) {
-        if (getView() == null) {
-            return;
-        }
+    public void setProgressIndicator(final boolean active) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (getView() == null) {
+                    return;
+                }
+
+                final SwipeRefreshLayout srl =
+                        (SwipeRefreshLayout) getView().findViewById(R.id.refresh_layout);
+
+                srl.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        srl.setRefreshing(active);
+                    }
+                });
+            }
+        });
     }
 
     /**

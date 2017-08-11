@@ -32,6 +32,7 @@ public class FavoriteMoviesPresenter implements FavouriteMoviesContract.UserActi
             public void run() {
                 List<MovieModel> data = mDbHelper.getAllFavMovies();
                 mFavouriteMoviesView.showMovies(data);
+                mFavouriteMoviesView.setProgressIndicator(false);
             }
         }).start();
     }
