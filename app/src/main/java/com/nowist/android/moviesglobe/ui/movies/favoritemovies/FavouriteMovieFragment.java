@@ -142,6 +142,7 @@ public class FavouriteMovieFragment extends Fragment implements FavouriteMoviesC
             @Override
             public void run() {
                 if (movieData != null && !movieData.isEmpty()) {
+                    mDataList.clear();
                     for (MovieModel movieModel : movieData) {
                         Movie movie = new Movie();
                         movie.setId(Integer.valueOf(movieModel.getMovieId()));
@@ -153,6 +154,9 @@ public class FavouriteMovieFragment extends Fragment implements FavouriteMoviesC
                     if (!mDataList.isEmpty()) {
                         mAdapter.notifyDataSetChanged();
                     }
+                } else if (mDataList.isEmpty()) {
+                    mRecyclerView.setVisibility(View.GONE);
+                    mEmptyView.setVisibility(View.VISIBLE);
                 }
             }
         });
