@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">MoviesGlobe</string>
+    <string name="navigation_view_header_title">Movies</string>
+    <string name="favourite_movies">Favourite Movies</string>
+    <string name="rating">Rating</string>
+    <string name="no_data">No Data Present</string>
+    <string name="other_info">Other Informations</string>
+    <string name="check_conn">Please check your internet connection and try again.</string>
+    <string name="like">Like</string>
+    <string name="data_not_loaded">Data not loaded, Please wait or check your internet connection.</string>
+    <string name="movie_detail">Movie Detail</string>
+    <string name="popular_movies">Popular Movies</string>
+</resources>
