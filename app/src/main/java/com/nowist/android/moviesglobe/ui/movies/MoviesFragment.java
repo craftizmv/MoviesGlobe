@@ -40,7 +40,7 @@ public class MoviesFragment extends Fragment implements MoviesContract.View, Mov
     private List<Movie> mDataList;
     private TextView mEmptyView;
     private Toolbar mToolbar;
-    private ProgressBar mProgressBar;
+//    private ProgressBar mProgressBar;
 
     public MoviesFragment() {
 
@@ -99,7 +99,7 @@ public class MoviesFragment extends Fragment implements MoviesContract.View, Mov
         mAdapter = new MoviesListAdapter(mDataList, this, mRecyclerView);
         mRecyclerView.setAdapter(mAdapter);
 
-        mProgressBar = (ProgressBar) view.findViewById(R.id.pb_loading);
+//        mProgressBar = (ProgressBar) view.findViewById(R.id.pb_loading);
         mToolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
 
         SwipeRefreshLayout swipeRefreshLayout =
@@ -157,11 +157,11 @@ public class MoviesFragment extends Fragment implements MoviesContract.View, Mov
             }
         });
 
-        if (active) {
+        /*if (active) {
             mProgressBar.setVisibility(View.VISIBLE);
         } else {
             mProgressBar.setVisibility(View.GONE);
-        }
+        }*/
     }
 
     @Override

@@ -26,13 +26,13 @@
             android:text="@string/no_data"
             android:visibility="gone" />
 
-        <ProgressBar
+        <!--<ProgressBar
             android:id="@+id/pb_loading"
             android:layout_width="42dp"
             android:layout_height="42dp"
             android:layout_gravity="center"
             android:indeterminate="true"
-            android:visibility="gone" />
+            android:visibility="gone" />-->
 
     </LinearLayout>
 
